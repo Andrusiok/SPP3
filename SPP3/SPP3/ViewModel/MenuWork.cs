@@ -16,13 +16,25 @@ namespace SPP3.ViewModel
     public sealed class MenuWork : ObservableObject
     {
 
-        public ObservableCollection<TabItem> _tabs = new ObservableCollection<TabItem>();
+        private ObservableCollection<TabItem> _tabs = new ObservableCollection<TabItem>();
+        public int SelectedTab{ 
+        get { return _selectedTab; }
+        set 
+        { 
+            if (_selectedTab == value) return; 
+            _selectedTab = value; 
+            RaisePropertyChangedEvent("SelectedTab");
+            RaisePropertyChangedEvent("SelectedFile");
+        } 
+        }
+
         public IEnumerable<TabItem> Tabs { get { return _tabs; } }
 
         public MenuWork()
         {
-            _tabs.Add(new TabItem() { Header = "Hey"});
-            _tabs.Add(new TabItem() { Header = "Hi" });
+            _tabs.Add(new TabItem("Hey"));
+            _tabs.Add(new TabItem("Hi"));
+            _tabs.Add(new TabItem("Zapraszamy"));
         }
 
         private ICommand _aboutApp;
@@ -31,6 +43,7 @@ namespace SPP3.ViewModel
         private ICommand _saveFile;
         private ICommand _saveFileAs;
         private ICommand _openFile;
+        private int _selectedTab;
 
         public ICommand AboutApp
         {
@@ -81,9 +94,47 @@ namespace SPP3.ViewModel
 
     }
 
-    public sealed class TabItem
+    public sealed class TabItem : ObservableObject
     {
-        public string Header;
+        private string _header;
+        public string Header { get { return _header; } set {
+                if (_header == value) return;
+                _header = value;
+                RaisePropertyChangedEvent("Header");
+            } }
+
+        public TabItem(string header)
+        {
+            _header = header;
+        }
+    }
+
+    public sealed class Threads : ObservableObject
+    {
+        private ObservableCollection<Methods> _methodsList = new ObservableCollection<Methods> { };
+        public IEnumerable<Methods> MethodsList { get { return _methodsList; } }
+
+        private int _threadID;
+        private int _time;
+
+        private string _entity;
+        public string Entity { get { return _entity; } 
+        }
+
+        public Threads()
+        {
+            ;
+        }
+    }
+
+    public sealed class Methods : ObservableObject
+    {
+        private ObservableCollection<Methods> _methodsList = new ObservableCollection<Methods> { };
+        public IEnumerable<Methods> MethodsList { get { return _methodsList; } }
+        public Methods()
+        {
+            ;
+        }
     }
 }
 
