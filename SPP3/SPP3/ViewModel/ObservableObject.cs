@@ -10,5 +10,10 @@ namespace SPP3.ViewModel
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        public virtual void Add(Methods method)
+        {
+
+        }
     }
 }

@@ -14,6 +14,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data;
 using SPP3.ViewModel;
+using SPP3.Views;
+using System.Xaml;
 
 namespace SPP3
 {
@@ -22,11 +24,39 @@ namespace SPP3
     /// </summary>
     public partial class MainWindow : Window
     {
+        MenuWork pointer;
+
         public MainWindow()
         {
             InitializeComponent();
             DataContext = new MenuWork();
-            
+            pointer = DataContext as MenuWork;
+        }
+
+        private void OnItemMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            TextBlock txt = sender as TextBlock;
+            object o = txt.DataContext;
+            Methods met = o as Methods;
+
+            if (object.ReferenceEquals(pointer.SelectedMethod, met))
+            {
+                Edit edit = new Edit(met.Name, met.Package, met.Time, met.ParamsCount);
+                bool? result = edit.ShowDialog();
+
+                if (result ?? true)
+                {
+                    met.OnItemMouseDoubleClick();
+                }
+
+                
+            }              
+            else pointer.SelectedMethod = met;
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            pointer.OnExit(sender, e);
         }
     }
 }

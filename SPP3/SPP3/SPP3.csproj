@@ -67,7 +67,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Model\FileWork.cs" />
+    <Compile Include="Model\Filework.cs" />
     <Compile Include="Model\XMLProperties.cs" />
     <Compile Include="Model\XMLTree.cs" />
     <Compile Include="ViewModel\DelegateCommand.cs" />

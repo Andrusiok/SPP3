@@ -4,13 +4,22 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SPP3.Views"
+        xmlns:viewModel="clr-namespace:SPP3.ViewModel"
         mc:Ignorable="d"
-        Title="Редактирование" Height="110.084" Width="300" WindowStyle="ToolWindow">
-    <Grid>
+        Title="Редактирование" Height="205.4" Width="254.98" WindowStyle="ToolWindow">
+    <Grid Margin="0,0,0,-12">
         <Grid.BindingGroup>
             <BindingGroup/>
         </Grid.BindingGroup>
-        <Button x:Name="button" Content="Завершить" Height="26" Margin="104,43,0,0" Width="84" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <Button x:Name="button" Content="Завершить" Height="26" Margin="82,131,0,0" Width="84" VerticalAlignment="Top" HorizontalAlignment="Left" Command="{Binding Check}"/>
+        <Label x:Name="label" Content="Name" HorizontalAlignment="Left" Height="24" Margin="10,10,0,0" VerticalAlignment="Top" Width="51"/>
+        <Label x:Name="label_Copy" Content="Package" HorizontalAlignment="Left" Height="29" Margin="10,39,0,0" VerticalAlignment="Top" Width="55"/>
+        <Label x:Name="label_Copy1" Content="Time" HorizontalAlignment="Left" Height="24" Margin="10,68,0,0" VerticalAlignment="Top" Width="51"/>
+        <Label x:Name="label_Copy2" Content="Parameters count" HorizontalAlignment="Left" Height="24" Margin="10,97,0,0" VerticalAlignment="Top" Width="102"/>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="18" Margin="138,16,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="94" Text="{Binding Path=Name}"/>
+        <TextBox x:Name="textBox_Copy" HorizontalAlignment="Left" Height="18" Margin="138,74,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="94" Text="{Binding Path=Package}"/>
+        <TextBox x:Name="textBox_Copy1" HorizontalAlignment="Left" Height="18" Margin="138,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="94" Text="{Binding Path=Time}"/>
+        <TextBox x:Name="textBox_Copy2" HorizontalAlignment="Left" Height="18" Margin="138,103,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="94" Text="{Binding Path=ParamsCount}"/>
 
     </Grid>
 </Window>

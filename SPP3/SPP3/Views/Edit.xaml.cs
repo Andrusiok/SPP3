@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using SPP3.ViewModel;
 
 namespace SPP3.Views
 {
@@ -19,9 +20,16 @@ namespace SPP3.Views
     /// </summary>
     public partial class Edit : Window
     {
-        public Edit()
+        EditProperties pointer = null;
+        public Edit(string o1, string o2, int o3, int o4)
         {
             InitializeComponent();
+            DataContext = new EditProperties(o1, o2, o3, o4, this);
+            pointer = DataContext as EditProperties;
+            
         }
+
+
+
     }
 }

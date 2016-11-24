@@ -6,34 +6,57 @@
         xmlns:local="clr-namespace:SPP3"
         xmlns:viewModel="clr-namespace:SPP3.ViewModel"
         mc:Ignorable="d"
-        Title="XMLParser" Height="491.177" Width="396.569">
+        Title="XMLParser" Height="500.177" Width="406.569" Closed="Window_Closed">
     <Grid>
         <Menu x:Name="menu" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="389" Background="{x:Null}">
             <MenuItem Header="Файл">
                 <MenuItem x:Name="menu_Open" Header="Открыть" Height="24" Command="{Binding OpenFile}"/>
                 <Separator Height="0" RenderTransformOrigin="0.5,0.5" Margin="0,2,-1,2" HorizontalAlignment="Left" Width="176"/>
-                <MenuItem x:Name="menu_Save" Header="Сохранить"/>
-                <MenuItem x:Name="menu_SaveAs" Header="Сохранить как..."/>
+                <MenuItem x:Name="menu_Save" Header="Сохранить" Command="{Binding SaveFile}"/>
+                <MenuItem x:Name="menu_SaveAs" Header="Сохранить как..." Command="{Binding SaveFileAs}"/>
                 <Separator HorizontalAlignment="Left" Height="0" Width="176"/>
-                <MenuItem x:Name="menu_Close" Header="Закрыть вкладку" HorizontalAlignment="Left" Width="176" BorderThickness="1"/>
-                <MenuItem x:Name="menu_Exit" Header="Выйти" HorizontalAlignment="Left" Width="176"/>
+                <MenuItem x:Name="menu_Close" Header="Закрыть вкладку" HorizontalAlignment="Left" Width="176" BorderThickness="1" Command="{Binding CloseFile}"/>
+                <MenuItem x:Name="menu_Exit" Header="Выйти" HorizontalAlignment="Left" Width="176" Command="{Binding CloseApp}"/>
             </MenuItem>
             <MenuItem x:Name="menu_About" Header="О Программе" AutomationProperties.Name="menu_About" Command="{Binding AboutApp}"/>
         </Menu>
-        <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="440" Margin="0,20,0,0" VerticalAlignment="Top" Width="389" BorderBrush="{x:Null}" ScrollViewer.HorizontalScrollBarVisibility="Visible" ItemsSource="{Binding Tabs}">
+        <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="440" Margin="1,20,0,0" VerticalAlignment="Top" Width="389" BorderBrush="{x:Null}" ScrollViewer.HorizontalScrollBarVisibility="Visible" ItemsSource="{Binding Tabs}">
             <TabControl.SelectedIndex >
                 <Binding Path="SelectedTab"/>
             </TabControl.SelectedIndex>
             <TabControl.ItemTemplate>
                 <DataTemplate >
-                    <TextBlock Text="{Binding Path=Header}">
-                        
-                    </TextBlock>
+                    <TextBlock Text="{Binding Path=Header}"/>
                 </DataTemplate>
             </TabControl.ItemTemplate>
             <TabControl.ContentTemplate>
                 <DataTemplate>
-                    <Grid Background="WhiteSmoke"/>
+                    <TreeView Name="tree" ItemsSource="{Binding Path=ThreadsList}">
+                        <TreeView.Resources>
+                            <HierarchicalDataTemplate DataType="{x:Type viewModel:Threads}" ItemsSource="{Binding Path=MethodsList}">
+                                <TextBlock>
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="Thread id: {0} time: {1}">
+                                        <Binding Path="ThreadID"/>
+                                        <Binding Path="Time"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                            </HierarchicalDataTemplate>
+                            <HierarchicalDataTemplate DataType="{x:Type viewModel:Methods}" ItemsSource="{Binding Path=MethodsList}">
+                                <TextBlock MouseLeftButtonDown="OnItemMouseDoubleClick">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="Method name: {0} package: {1} parameters: {2} time: {3}">
+                                            <Binding Path="Name"/>
+                                            <Binding Path="Package"/>
+                                            <Binding Path="ParamsCount"/>
+                                            <Binding Path="Time"/>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </HierarchicalDataTemplate>
+                        </TreeView.Resources>
+                        </TreeView>
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>
