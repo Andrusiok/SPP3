@@ -6,21 +6,21 @@
         xmlns:local="clr-namespace:SPP3"
         xmlns:viewModel="clr-namespace:SPP3.ViewModel"
         mc:Ignorable="d"
-        Title="XMLParser" Height="500.177" Width="406.569" Closed="Window_Closed">
+        Title="XMLParser" Height="500.177" Width="406.569" Closed="Window_Closed" Grid.IsSharedSizeScope="True">
     <Grid>
         <Menu x:Name="menu" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="389" Background="{x:Null}">
             <MenuItem Header="Файл">
                 <MenuItem x:Name="menu_Open" Header="Открыть" Height="24" Command="{Binding OpenFile}"/>
                 <Separator Height="0" RenderTransformOrigin="0.5,0.5" Margin="0,2,-1,2" HorizontalAlignment="Left" Width="176"/>
-                <MenuItem x:Name="menu_Save" Header="Сохранить" Command="{Binding SaveFile}"/>
-                <MenuItem x:Name="menu_SaveAs" Header="Сохранить как..." Command="{Binding SaveFileAs}"/>
+                <MenuItem x:Name="menu_Save" Header="Сохранить" Command="{Binding SaveFile}" IsEnabled="{Binding Path=SaveActivated}"/>
+                <MenuItem x:Name="menu_SaveAs" Header="Сохранить как..." Command="{Binding SaveFileAs}" IsEnabled="{Binding Path=Activated}"/>
                 <Separator HorizontalAlignment="Left" Height="0" Width="176"/>
-                <MenuItem x:Name="menu_Close" Header="Закрыть вкладку" HorizontalAlignment="Left" Width="176" BorderThickness="1" Command="{Binding CloseFile}"/>
+                <MenuItem x:Name="menu_Close" Header="Закрыть вкладку" HorizontalAlignment="Left" Width="176" BorderThickness="1" Command="{Binding CloseFile}" IsEnabled="{Binding Path=Activated}"/>
                 <MenuItem x:Name="menu_Exit" Header="Выйти" HorizontalAlignment="Left" Width="176" Command="{Binding CloseApp}"/>
             </MenuItem>
             <MenuItem x:Name="menu_About" Header="О Программе" AutomationProperties.Name="menu_About" Command="{Binding AboutApp}"/>
         </Menu>
-        <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="440" Margin="1,20,0,0" VerticalAlignment="Top" Width="389" BorderBrush="{x:Null}" ScrollViewer.HorizontalScrollBarVisibility="Visible" ItemsSource="{Binding Tabs}">
+        <TabControl x:Name="tabControl" HorizontalAlignment="Stretch" Margin="1,20,0,0" VerticalAlignment="Stretch" BorderBrush="{x:Null}" ScrollViewer.HorizontalScrollBarVisibility="Visible" ItemsSource="{Binding Tabs}" SnapsToDevicePixels="True">
             <TabControl.SelectedIndex >
                 <Binding Path="SelectedTab"/>
             </TabControl.SelectedIndex>

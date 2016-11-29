@@ -79,7 +79,7 @@ namespace SPP3.Model
                     }
                 }
 
-                Methods method = new Methods(time, paramsCount, package, name, parent);
+                Methods method = new Methods(time, paramsCount, package, name, listparent);
                 if (child.HasElements) method = AcquireMethods(child, method) as Methods;
                 listparent.Add(method);
                 

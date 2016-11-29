@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace SPP3.Model
 {
-    class XMLProperties
+    public static class XMLReorganization
     {
+        public static int FindDifference(int i1, int i2)
+        {
+            return i1 - i2;
+        }
     }
 }

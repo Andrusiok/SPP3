@@ -19,10 +19,35 @@ namespace SPP3.ViewModel
             set 
             { 
                 if (_selectedTab == value) return; 
-                _selectedTab = value; 
+                _selectedTab = value;
+                if (value != -1) SaveActivated = !fwork.savedpaths[value];
+                else SaveActivated = false;
                 RaisePropertyChangedEvent("SelectedTab");
                 RaisePropertyChangedEvent("SelectedFile");
             } 
+        }
+
+        public bool SaveActivated
+        {
+            get { return _saveActive; }
+            set {
+                if (_saveActive == value) return;
+                _saveActive = value;
+                RaisePropertyChangedEvent("SaveActivated");
+                RaisePropertyChangedEvent("IsEnabled");
+            }
+        }
+
+        public bool Activated
+        {
+            get { return _active; }
+            set
+            {
+                if (_active == value) return;
+                _active = value;
+                RaisePropertyChangedEvent("Activated");
+                RaisePropertyChangedEvent("IsEnabled");
+            }
         }
 
         public IEnumerable<TabItem> Tabs { get { return _tabs; } }
@@ -43,6 +68,8 @@ namespace SPP3.ViewModel
 
         private int _selectedTab;
         private bool _exited = false;
+        private bool _active = false;
+        private bool _saveActive = false;
 
         public ICommand AboutApp
         {
@@ -115,6 +142,7 @@ namespace SPP3.ViewModel
                     }
 
                 }
+            if (_selectedTab == -1) Activated = false;
         }
 
         private void OpeningProcess()
@@ -135,10 +163,18 @@ namespace SPP3.ViewModel
                         {
                             shortpath = openFileDialog.SafeFileName;
                             fullpath = openFileDialog.FileName;
-                            Constructor = new XMLTreeAsm(stream);
-                            CreateTabPage(shortpath, Constructor);
-                            fwork.fullpaths.Add(fullpath);
-                            fwork.savedpaths.Add(false);
+                            if (fwork.fullpaths.Contains(fullpath))
+                            {
+                                SelectedTab = fwork.fullpaths.IndexOf(fullpath);
+                            }
+                            else
+                            { 
+                                Constructor = new XMLTreeAsm(stream);
+                                CreateTabPage(shortpath, Constructor);
+                                fwork.fullpaths.Add(fullpath);
+                                fwork.savedpaths.Add(true);
+                                Activated = true;
+                            }
                         }
                     }
                 }
@@ -153,6 +189,7 @@ namespace SPP3.ViewModel
         {
             fwork.SavingXMLFile(fwork.fullpaths[_selectedTab], _tabs[_selectedTab].ThreadsList);
             fwork.savedpaths[_selectedTab] = true;
+            SaveActivated = false;
         }
 
         private void SavingAsProcess()
@@ -263,6 +300,7 @@ namespace SPP3.ViewModel
     {
         private ObservableCollection<Methods> _methodsList = new ObservableCollection<Methods> { };
         public IEnumerable<Methods> MethodsList { get { return _methodsList; } }
+        public object Parent = null;
 
         private int _threadID;
         private int _time;
@@ -276,7 +314,7 @@ namespace SPP3.ViewModel
             }
         }
 
-        public int Time
+        public override int Time
         {
             get { return _time; }
             set
@@ -292,8 +330,6 @@ namespace SPP3.ViewModel
         {
             _threadID = threadID;
             _time = time;
-            //_methodsList.Add(new Methods(100, 3, "hey", "ahoy", this));
-            //_methodsList.Add(new Methods(100, 3, "hey", "ahoy", this));
         }
 
         override public void Add(Methods method)
@@ -306,7 +342,7 @@ namespace SPP3.ViewModel
     {
         private ObservableCollection<Methods> _methodsList = new ObservableCollection<Methods> { };
         public IEnumerable<Methods> MethodsList { get { return _methodsList; } }
-        public object Parent;
+        //public object Parent;
 
         private int _time;
         private int _paramsCount;
@@ -353,7 +389,7 @@ namespace SPP3.ViewModel
             }
         }
 
-        public int Time
+        public override int Time
         {
             get { return _time; }
             set
@@ -369,7 +405,7 @@ namespace SPP3.ViewModel
             get { return _methodsList.Count; }
         }
 
-        public Methods(int time, int paramsCount, string package, string name, object parent)
+        public Methods(int time, int paramsCount, string package, string name, ObservableObject parent)
         {
             _time = time;
             _paramsCount = paramsCount;
@@ -384,8 +420,24 @@ namespace SPP3.ViewModel
             _methodsList.Add(method);
         }
 
-        public void OnItemMouseDoubleClick()
+        public void OnItemMouseDoubleClick(Props data)
         {
+            Name = data.name;
+            Package = data.package;
+            ParamsCount = data.paramsc;
+
+            int difference = XMLReorganization.FindDifference(_time, data.time);
+            Time -= difference;
+
+            ChangeTime(Parent as ObservableObject, difference);
+
+        }
+
+        private void ChangeTime(ObservableObject parent, int difference)
+        {
+            parent.Time -= difference;
+
+            if (parent.Parent != null) ChangeTime(parent.Parent as ObservableObject, difference);
             
         }
     }

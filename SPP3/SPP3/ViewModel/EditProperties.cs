@@ -16,9 +16,21 @@ namespace SPP3.ViewModel
         private string _package;
         private int _time;
         private int _paramsCount;
+        private bool _isActive = true;
         private Window _pointer;
+        private MainWindow parent;
 
         private ICommand _check;
+
+        public bool Active
+        {
+            get { return _isActive; }
+            set
+            {
+                _isActive = value;
+                RaisePropertyChangedEvent("Active");
+            }
+        }
 
         public ICommand Check
         {
@@ -59,16 +71,18 @@ namespace SPP3.ViewModel
 
         private void OnCheck()
         {
+            parent.props = new Props(_name, _package, _time, _paramsCount);
             _pointer.DialogResult = true;
         }
 
-        public EditProperties(string o1, string o2, int o3, int o4, Window pointer)
+        public EditProperties(string o1, string o2, int o3, int o4, Window pointer, MainWindow parent)
         {
             _name = o1;
             _package = o2;
             _time = o3;
             _paramsCount = o4;
             _pointer = pointer;
+            this.parent = parent;
         }
     }
 }

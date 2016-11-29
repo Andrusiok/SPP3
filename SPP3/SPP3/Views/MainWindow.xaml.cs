@@ -25,6 +25,7 @@ namespace SPP3
     public partial class MainWindow : Window
     {
         MenuWork pointer;
+        public Props props = null;
 
         public MainWindow()
         {
@@ -41,12 +42,15 @@ namespace SPP3
 
             if (object.ReferenceEquals(pointer.SelectedMethod, met))
             {
-                Edit edit = new Edit(met.Name, met.Package, met.Time, met.ParamsCount);
+                Edit edit = new Edit(met.Name, met.Package, met.Time, met.ParamsCount, this);
                 bool? result = edit.ShowDialog();
 
                 if (result ?? true)
                 {
-                    met.OnItemMouseDoubleClick();
+                    met.OnItemMouseDoubleClick(props);
+                    pointer.SelectedMethod = null;
+                    pointer.fwork.savedpaths[pointer.SelectedTab] = false;
+                    pointer.SaveActivated = true;
                 }
 
                 

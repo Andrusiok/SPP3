@@ -74,6 +74,7 @@
     <Compile Include="ViewModel\EditProperties.cs" />
     <Compile Include="ViewModel\MenuWork.cs" />
     <Compile Include="ViewModel\ObservableObject.cs" />
+    <Compile Include="ViewModel\Properties.cs" />
     <Compile Include="ViewModel\TreeView.cs" />
     <Compile Include="Views\Edit.xaml.cs">
       <DependentUpon>Edit.xaml</DependentUpon>

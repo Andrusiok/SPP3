@@ -15,5 +15,12 @@ namespace SPP3.ViewModel
         {
 
         }
+
+        public virtual int Time
+        {
+            get; set;
+        }
+
+        public ObservableObject Parent = null;
     }
 }
